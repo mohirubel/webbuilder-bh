@@ -271,6 +271,159 @@ a { text-decoration: none; }
   transform: translateY(-6px) rotate(-45deg);
 }
 
+/* Concept 3 style drawer nav (homepage) */
+.navbar-nexora .container {
+  position: relative;
+}
+
+.site-c3-link {
+  background: none;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.site-c3-link svg {
+  width: 10px;
+  height: 10px;
+  transition: transform 0.2s ease;
+}
+
+.site-c3-link.open svg {
+  transform: rotate(180deg);
+}
+
+.site-c3-drawer {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  background: var(--n-white);
+  border: 1px solid var(--n-border);
+  border-radius: 14px;
+  box-shadow: var(--n-shadow-lg);
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: max-height 0.28s ease, opacity 0.2s ease, transform 0.2s ease;
+  z-index: 1040;
+}
+
+.site-c3-drawer.open {
+  max-height: 520px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.site-c3-drawer-inner {
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 24px;
+}
+
+.site-c3-drawer-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-right: 1px solid var(--n-border);
+  padding-right: 18px;
+}
+
+.site-c3-drawer-tab {
+  text-align: left;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 10px;
+  color: var(--n-navy);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.site-c3-drawer-tab.active {
+  background: var(--n-bg-alt);
+  color: var(--n-primary);
+}
+
+.site-c3-drawer-panel {
+  display: none;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.site-c3-drawer-panel.active {
+  display: grid;
+}
+
+.site-c3-card {
+  border: 1px solid var(--n-border);
+  border-radius: 12px;
+  padding: 14px;
+  background: var(--n-white);
+}
+
+.site-c3-tag {
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--n-primary);
+}
+
+.site-c3-card h5 {
+  margin: 0.4rem 0 0.4rem;
+  font-size: 1rem;
+}
+
+.site-c3-card p {
+  margin: 0 0 0.7rem;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--n-slate);
+}
+
+.site-c3-card a {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--n-primary);
+}
+
+.site-mobile-products-toggle {
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
+.site-mobile-products-submenu {
+  display: none;
+  padding: 0 0 8px;
+}
+
+.site-mobile-products-submenu.open {
+  display: block;
+}
+
+.site-mobile-products-submenu .nav-link {
+  padding-left: 2rem !important;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 991.98px) {
+  .site-c3-drawer {
+    display: none;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .site-c3-drawer-panel {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 /* =====================================================
    HERO
    ===================================================== */

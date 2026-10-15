@@ -118,4 +118,51 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  /* ---------- Concept 3 drawer menu (homepage) ---------- */
+  const c3Trigger = document.getElementById('site-c3-trigger');
+  const c3Drawer = document.getElementById('site-c3-drawer');
+
+  if (c3Trigger && c3Drawer) {
+    c3Trigger.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const isOpen = c3Drawer.classList.toggle('open');
+      c3Trigger.classList.toggle('open', isOpen);
+      c3Trigger.setAttribute('aria-expanded', String(isOpen));
+      c3Drawer.setAttribute('aria-hidden', String(!isOpen));
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!c3Drawer.contains(e.target) && !c3Trigger.contains(e.target)) {
+        c3Drawer.classList.remove('open');
+        c3Trigger.classList.remove('open');
+        c3Trigger.setAttribute('aria-expanded', 'false');
+        c3Drawer.setAttribute('aria-hidden', 'true');
+      }
+    });
+
+    c3Drawer.querySelectorAll('.site-c3-drawer-tab').forEach(tab => {
+      tab.addEventListener('click', function () {
+        const panelId = tab.getAttribute('data-panel');
+        c3Drawer.querySelectorAll('.site-c3-drawer-tab').forEach(t => t.classList.remove('active'));
+        c3Drawer.querySelectorAll('.site-c3-drawer-panel').forEach(panel => panel.classList.remove('active'));
+        tab.classList.add('active');
+        const panel = document.getElementById(panelId);
+        if (panel) panel.classList.add('active');
+      });
+    });
+  }
+
+  /* ---------- Mobile product submenu toggle ---------- */
+  const mobileProductsToggle = document.getElementById('site-mobile-products-toggle');
+  const mobileProductsSubmenu = document.getElementById('site-mobile-products-submenu');
+
+  if (mobileProductsToggle && mobileProductsSubmenu) {
+    mobileProductsToggle.addEventListener('click', function (e) {
+      e.preventDefault();
+      const isOpen = mobileProductsSubmenu.classList.toggle('open');
+      mobileProductsToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+  }
+
 });
