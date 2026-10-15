@@ -9,23 +9,16 @@
   <meta property="og:title" content="Nexora — Premium SaaS & Agency Bootstrap Theme">
   <meta property="og:description" content="A fully responsive, multi-page business and marketing theme built with Bootstrap 5.">
   <meta property="og:type" content="website">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23155EEF'/%3E%3Ctext x='50' y='68' font-size='58' font-family='Arial' font-weight='800' fill='white' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23155EEF'/%3E%3Ctext x='50' y='61' text-anchor='middle' font-size='52' fill='white' font-family='Arial' font-weight='700'%3EN%3C/text%3E%3C/svg%3E">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Bootstrap 5.3 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-  <!-- Custom CSS -->
   <link href="css/custom.css" rel="stylesheet">
 </head>
 <body>
-
-  <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg navbar-nexora fixed-top">
     <div class="container">
       <a class="navbar-brand navbar-brand-custom" href="index.html">Nexora<span>.</span></a>
@@ -34,29 +27,111 @@
       </button>
       <div class="collapse navbar-collapse" id="mainNav">
         <ul class="navbar-nav ms-auto align-items-lg-center gap-1 mt-3 mt-lg-0">
-          <li class="nav-item"><a class="nav-link nav2 active"  href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link nav2 active" href="index.html">Home</a></li>
           <li class="nav-item"><a class="nav-link nav2" href="about.html">About</a></li>
           <li class="nav-item"><a class="nav-link nav2" href="services.html">Services</a></li>
           <li class="nav-item"><a class="nav-link nav2" href="portfolio.html">Portfolio</a></li>
           <li class="nav-item"><a class="nav-link nav2" href="blog.html">Blog</a></li>
+          <li class="nav-item dropdown nav-mega-wrap">
+            <a class="nav-link nav2 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Resources</a>
+            <div class="dropdown-menu dropdown-mega p-0 border-0 shadow-lg">
+              <div class="row g-0">
+                <div class="col-lg-4 p-4 nav-utility-rail">
+                  <span class="eyebrow d-inline-block mb-2">Utility rail</span>
+                  <h6 class="mb-3 text-white">Quick links</h6>
+                  <a href="pricing.html" class="utility-link"><i class="bi bi-tags"></i> Pricing</a>
+                  <a href="contact.html" class="utility-link"><i class="bi bi-chat-dots"></i> Contact</a>
+                  <a href="blog.html" class="utility-link"><i class="bi bi-journal-text"></i> Blog</a>
+                  <a href="portfolio.html" class="utility-link"><i class="bi bi-grid"></i> Portfolio</a>
+                </div>
+                <div class="col-lg-8 p-4">
+                  <div class="row g-3">
+                    <div class="col-md-4">
+                      <h6 class="mega-title">Explore</h6>
+                      <a class="mega-link" href="about.html">About Us</a>
+                      <a class="mega-link" href="services.html">Services</a>
+                      <a class="mega-link" href="service-details.html">Service Details</a>
+                    </div>
+                    <div class="col-md-4">
+                      <h6 class="mega-title">Solutions</h6>
+                      <a class="mega-link" href="pricing.html">Pricing</a>
+                      <a class="mega-link" href="portfolio-single.html">Case Study</a>
+                      <a class="mega-link" href="contact.html">Get a Quote</a>
+                    </div>
+                    <div class="col-md-4">
+                      <h6 class="mega-title">Highlights</h6>
+                      <div class="mega-feature-card">
+                        <span class="badge-soft mb-2 d-inline-block">New</span>
+                        <p class="mb-2">Fast, modern, responsive layouts with premium UI.</p>
+                        <a href="contact.html" class="card-link-arrow">Start project <i class="bi bi-arrow-right"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item nav-mega-wrap">
+            <a class="nav-link nav2 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mega Menu</a>
+            <div class="dropdown-menu dropdown-mega p-0 border-0 shadow-lg">
+              <div class="row g-0">
+                <div class="col-lg-3 p-4 nav-utility-rail">
+                  <span class="eyebrow d-inline-block mb-2">Utility rail</span>
+                  <h6 class="mb-3 text-white">Actions</h6>
+                  <a href="contact.html" class="utility-link"><i class="bi bi-rocket-takeoff"></i> Launch Project</a>
+                  <a href="services.html" class="utility-link"><i class="bi bi-kanban"></i> Browse Services</a>
+                  <a href="portfolio.html" class="utility-link"><i class="bi bi-images"></i> View Portfolio</a>
+                </div>
+                <div class="col-lg-9 p-4">
+                  <div class="row g-3">
+                    <div class="col-md-3">
+                      <h6 class="mega-title">Company</h6>
+                      <a class="mega-link" href="about.html">About</a>
+                      <a class="mega-link" href="contact.html">Careers</a>
+                      <a class="mega-link" href="blog.html">Blog</a>
+                    </div>
+                    <div class="col-md-3">
+                      <h6 class="mega-title">Services</h6>
+                      <a class="mega-link" href="service-details.html">Strategy</a>
+                      <a class="mega-link" href="service-details.html">Design</a>
+                      <a class="mega-link" href="service-details.html">Development</a>
+                    </div>
+                    <div class="col-md-3">
+                      <h6 class="mega-title">Resources</h6>
+                      <a class="mega-link" href="pricing.html">Pricing</a>
+                      <a class="mega-link" href="portfolio-single.html">Case Study</a>
+                      <a class="mega-link" href="contact.html">Support</a>
+                    </div>
+                    <div class="col-md-3">
+                      <h6 class="mega-title">Promo</h6>
+                      <div class="mega-feature-card h-100 d-flex flex-column justify-content-between">
+                        <div>
+                          <span class="badge-soft mb-2 d-inline-block">Hot</span>
+                          <p class="mb-2">Need a fast website refresh?</p>
+                        </div>
+                        <a href="contact.html" class="card-link-arrow">Book a call <i class="bi bi-arrow-right"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
           <li class="nav-item"><a class="nav-link nav2" href="pricing.html">Pricing</a></li>
           <li class="nav-item"><a class="nav-link nav2" href="contact.html">Contact</a></li>
-          <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
-            <a href="contact.html" class="btn btn-primary btn-sm-custom w-100">Get Started</a>
-          </li>
+          <li class="nav-item ms-lg-2 mt-2 mt-lg-0"><a href="contact.html" class="btn btn-primary btn-sm-custom w-100">Get Started</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- HERO -->
   <header class="hero">
     <div class="container">
       <div class="row align-items-center gy-5">
         <div class="col-lg-6 hero-content">
           <span class="eyebrow">Trusted by 480+ growing companies</span>
           <h1 class="mb-4">Build, launch and scale your <span class="text-primary-custom">digital product</span> faster.</h1>
-          <p class="fs-5 mb-4" style="max-width: 540px;">Nexora is your end-to-end product partner — strategy, design and engineering teams that ship measurable results for SaaS and tech-driven businesses.</p>
+          <p class="fs-5 mb-4" style="max-width: 540px;">Nexora is your end-to-end product partner — strategy, design and engineering teams that ship measurable results for SaaS and tech-driven brands.</p>
           <div class="d-flex flex-wrap gap-3 mb-4 justify-content-lg-start justify-content-center">
             <a href="contact.html" class="btn btn-primary btn-lg-custom">Start a Project <i class="bi bi-arrow-right ms-1"></i></a>
             <a href="services.html" class="btn btn-light-custom btn-lg-custom">Explore Services</a>
@@ -118,7 +193,6 @@
     </div>
   </header>
 
-  <!-- LOGO CLOUD -->
   <section class="py-4 bg-white border-bottom">
     <div class="container">
       <p class="text-center text-slate small fw-semibold text-uppercase mb-4" style="letter-spacing:0.1em;">Powering product teams at</p>
@@ -133,7 +207,6 @@
     </div>
   </section>
 
-  <!-- SERVICES OVERVIEW -->
   <section class="section bg-soft">
     <div class="container">
       <div class="row section-header align-items-end">
@@ -147,43 +220,14 @@
         </div>
       </div>
       <div class="row g-4">
-        <div class="col-md-6 col-lg-3 reveal">
-          <div class="card-premium">
-            <div class="icon-box icon-box-primary mb-4"><i class="bi bi-bar-chart-line"></i></div>
-            <h3 class="card-title">Product Strategy</h3>
-            <p class="mb-3">Research-driven roadmaps that align stakeholders and de-risk what you build next.</p>
-            <a href="service-details.html" class="card-link-arrow">Learn more <i class="bi bi-arrow-right"></i></a>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3 reveal">
-          <div class="card-premium">
-            <div class="icon-box icon-box-secondary mb-4"><i class="bi bi-palette"></i></div>
-            <h3 class="card-title">UI/UX Design</h3>
-            <p class="mb-3">Interfaces that convert — wireframes, design systems and prototypes ready for dev.</p>
-            <a href="service-details.html" class="card-link-arrow">Learn more <i class="bi bi-arrow-right"></i></a>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3 reveal">
-          <div class="card-premium">
-            <div class="icon-box icon-box-success mb-4"><i class="bi bi-code-slash"></i></div>
-            <h3 class="card-title">Web Development</h3>
-            <p class="mb-3">Performant, scalable web apps built on modern frameworks with clean architecture.</p>
-            <a href="service-details.html" class="card-link-arrow">Learn more <i class="bi bi-arrow-right"></i></a>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3 reveal">
-          <div class="card-premium">
-            <div class="icon-box icon-box-primary mb-4"><i class="bi bi-cloud-arrow-up"></i></div>
-            <h3 class="card-title">Cloud &amp; DevOps</h3>
-            <p class="mb-3">CI/CD pipelines, monitoring and cloud infrastructure that scales with your traffic.</p>
-            <a href="service-details.html" class="card-link-arrow">Learn more <i class="bi bi-arrow-right"></i></a>
-          </div>
-        </div>
+        <div class="col-md-6 col-lg-3 reveal"><div class="card-premium"><div class="icon-box icon-box-primary mb-4"><i class="bi bi-bar-chart-line"></i></div><h3 class="card-title">Product Strategy</h3><p class="mb-3">Research-driven roadmaps that align stakeholders and de-risk what you build next.</p><a href="service-details.html" class="card-link-arrow">Learn more <i class="bi bi-arrow-right"></i></a></div></div>
+        <div class="col-md-6 col-lg-3 reveal"><div class="card-premium"><div class="icon-box icon-box-secondary mb-4"><i class="bi bi-palette"></i></div><h3 class="card-title">UI/UX Design</h3><p class="mb-3">Interfaces that convert — wireframes, design systems and prototypes ready for dev.</p><a href="service-details.html" class="card-link-arrow">Learn more <i class="bi bi-arrow-right"></i></a></div></div>
+        <div class="col-md-6 col-lg-3 reveal"><div class="card-premium"><div class="icon-box icon-box-success mb-4"><i class="bi bi-code-slash"></i></div><h3 class="card-title">Web Development</h3><p class="mb-3">Performant, scalable web apps built on modern frameworks with clean architecture.</p><a href="service-details.html" class="card-link-arrow">Learn more <i class="bi bi-arrow-right"></i></a></div></div>
+        <div class="col-md-6 col-lg-3 reveal"><div class="card-premium"><div class="icon-box icon-box-primary mb-4"><i class="bi bi-cloud-arrow-up"></i></div><h3 class="card-title">Cloud &amp; DevOps</h3><p class="mb-3">CI/CD pipelines, monitoring and cloud infrastructure that scales with your traffic.</p><a href="service-details.html" class="card-link-arrow">Learn more <i class="bi bi-arrow-right"></i></a></div></div>
       </div>
     </div>
   </section>
 
-  <!-- ABOUT / WHY US -->
   <section class="section">
     <div class="container">
       <div class="row align-items-center g-5">
@@ -211,31 +255,17 @@
     </div>
   </section>
 
-  <!-- STATS STRIP -->
   <section class="stats-strip py-5 bg-white">
     <div class="container">
       <div class="row text-center g-4">
-        <div class="col-6 col-md-3 stat-item reveal">
-          <div class="stat-number">480+</div>
-          <div class="stat-label">Projects delivered</div>
-        </div>
-        <div class="col-6 col-md-3 stat-item reveal">
-          <div class="stat-number">12 yrs</div>
-          <div class="stat-label">Industry experience</div>
-        </div>
-        <div class="col-6 col-md-3 stat-item reveal">
-          <div class="stat-number">96%</div>
-          <div class="stat-label">Client retention</div>
-        </div>
-        <div class="col-6 col-md-3 stat-item reveal">
-          <div class="stat-number">34</div>
-          <div class="stat-label">Countries served</div>
-        </div>
+        <div class="col-6 col-md-3 stat-item reveal"><div class="stat-number">480+</div><div class="stat-label">Projects delivered</div></div>
+        <div class="col-6 col-md-3 stat-item reveal"><div class="stat-number">12 yrs</div><div class="stat-label">Industry experience</div></div>
+        <div class="col-6 col-md-3 stat-item reveal"><div class="stat-number">96%</div><div class="stat-label">Client retention</div></div>
+        <div class="col-6 col-md-3 stat-item reveal"><div class="stat-number">34</div><div class="stat-label">Countries served</div></div>
       </div>
     </div>
   </section>
 
-  <!-- PROCESS -->
   <section class="section bg-soft">
     <div class="container">
       <div class="row section-header justify-content-center text-center">
@@ -246,39 +276,14 @@
         </div>
       </div>
       <div class="row g-4">
-        <div class="col-md-6 col-lg-3 reveal">
-          <div class="process-step">
-            <span class="process-number">01</span>
-            <h3 class="card-title">Discover</h3>
-            <p>We audit your product, market and users to identify the highest-leverage opportunities.</p>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3 reveal">
-          <div class="process-step">
-            <span class="process-number">02</span>
-            <h3 class="card-title">Design</h3>
-            <p>Wireframes evolve into polished, tested interfaces backed by a reusable design system.</p>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3 reveal">
-          <div class="process-step">
-            <span class="process-number">03</span>
-            <h3 class="card-title">Build</h3>
-            <p>Engineers ship in two-week sprints with continuous integration and staging previews.</p>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3 reveal">
-          <div class="process-step">
-            <span class="process-number">04</span>
-            <h3 class="card-title">Scale</h3>
-            <p>Post-launch, we monitor performance and iterate based on real usage data.</p>
-          </div>
-        </div>
+        <div class="col-md-6 col-lg-3 reveal"><div class="process-step"><span class="process-number">01</span><h3 class="card-title">Discover</h3><p>We audit your product, market and users to identify the highest-leverage opportunities.</p></div></div>
+        <div class="col-md-6 col-lg-3 reveal"><div class="process-step"><span class="process-number">02</span><h3 class="card-title">Design</h3><p>Wireframes evolve into polished, tested interfaces backed by a reusable design system.</p></div></div>
+        <div class="col-md-6 col-lg-3 reveal"><div class="process-step"><span class="process-number">03</span><h3 class="card-title">Build</h3><p>Engineers ship in two-week sprints with continuous integration and staging previews.</p></div></div>
+        <div class="col-md-6 col-lg-3 reveal"><div class="process-step"><span class="process-number">04</span><h3 class="card-title">Scale</h3><p>Post-launch, we monitor performance and iterate based on real usage data.</p></div></div>
       </div>
     </div>
   </section>
 
-  <!-- PORTFOLIO PREVIEW -->
   <section class="section">
     <div class="container">
       <div class="row section-header align-items-end">
@@ -286,43 +291,16 @@
           <span class="eyebrow">Selected work</span>
           <h2 class="section-title">Case studies that speak for themselves</h2>
         </div>
-        <div class="col-lg-5 text-lg-end mt-3 mt-lg-0 reveal">
-          <a href="portfolio.html" class="card-link-arrow">View full portfolio <i class="bi bi-arrow-right"></i></a>
-        </div>
+        <div class="col-lg-5 text-lg-end mt-3 mt-lg-0 reveal"><a href="portfolio.html" class="card-link-arrow">View full portfolio <i class="bi bi-arrow-right"></i></a></div>
       </div>
       <div class="row g-4">
-        <div class="col-md-6 col-lg-4 reveal">
-          <a href="portfolio-single.html" class="portfolio-card d-block">
-            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=450&fit=crop" alt="Fintech dashboard redesign project">
-            <div class="portfolio-overlay">
-              <span>FinTech · Product Design</span>
-              <h5>Payflow Dashboard Redesign</h5>
-            </div>
-          </a>
-        </div>
-        <div class="col-md-6 col-lg-4 reveal">
-          <a href="portfolio-single.html" class="portfolio-card d-block">
-            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=450&fit=crop" alt="SaaS analytics platform development">
-            <div class="portfolio-overlay">
-              <span>SaaS · Web Development</span>
-              <h5>Metricly Analytics Platform</h5>
-            </div>
-          </a>
-        </div>
-        <div class="col-md-6 col-lg-4 reveal">
-          <a href="portfolio-single.html" class="portfolio-card d-block">
-            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=450&fit=crop" alt="Healthcare app branding and UI">
-            <div class="portfolio-overlay">
-              <span>HealthTech · Branding</span>
-              <h5>Carewise Patient App</h5>
-            </div>
-          </a>
-        </div>
+        <div class="col-md-6 col-lg-4 reveal"><a href="portfolio-single.html" class="portfolio-card d-block"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=450&fit=crop" alt="Fintech dashboard redesign project"><div class="portfolio-overlay"><span>FinTech · Product Design</span><h5>Payflow Dashboard Redesign</h5></div></a></div>
+        <div class="col-md-6 col-lg-4 reveal"><a href="portfolio-single.html" class="portfolio-card d-block"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=450&fit=crop" alt="SaaS analytics platform development"><div class="portfolio-overlay"><span>SaaS · Web Development</span><h5>Metricly Analytics Platform</h5></div></a></div>
+        <div class="col-md-6 col-lg-4 reveal"><a href="portfolio-single.html" class="portfolio-card d-block"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=450&fit=crop" alt="Healthcare app branding and UI"><div class="portfolio-overlay"><span>HealthTech · Branding</span><h5>Carewise Patient App</h5></div></a></div>
       </div>
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
   <section class="section bg-soft">
     <div class="container">
       <div class="row section-header justify-content-center text-center">
@@ -332,72 +310,28 @@
         </div>
       </div>
       <div class="row g-4">
-        <div class="col-md-6 col-lg-4 reveal">
-          <div class="testimonial-card">
-            <div class="stars">★★★★★</div>
-            <p>"Nexora rebuilt our onboarding flow in six weeks and activation rates jumped almost immediately. Communication was exceptional throughout."</p>
-            <div class="testimonial-author">
-              <img src="https://i.pravatar.cc/100?img=33" alt="Sarah Mitchell">
-              <div>
-                <div class="name">Sarah Mitchell</div>
-                <div class="role">VP Product, Flowbit</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4 reveal">
-          <div class="testimonial-card">
-            <div class="stars">★★★★★</div>
-            <p>"The team felt like an extension of ours from day one. They caught edge cases our internal team had missed for months."</p>
-            <div class="testimonial-author">
-              <img src="https://i.pravatar.cc/100?img=51" alt="James Okafor">
-              <div>
-                <div class="name">James Okafor</div>
-                <div class="role">CTO, Orbiq</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4 reveal">
-          <div class="testimonial-card">
-            <div class="stars">★★★★★</div>
-            <p>"Clear timelines, transparent pricing, and a final product that exceeded what we scoped. We've since signed a long-term retainer."</p>
-            <div class="testimonial-author">
-              <img src="https://i.pravatar.cc/100?img=14" alt="Lina Torres">
-              <div>
-                <div class="name">Lina Torres</div>
-                <div class="role">Founder, Carewise</div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div class="col-md-6 col-lg-4 reveal"><div class="testimonial-card"><div class="stars">★★★★★</div><p>"Nexora rebuilt our onboarding flow in six weeks and activation rates jumped almost immediately. Communication was exceptional throughout."</p><div class="testimonial-author"><img src="https://i.pravatar.cc/100?img=33" alt="Sarah Mitchell"><div><div class="name">Sarah Mitchell</div><div class="role">VP Product, Flowbit</div></div></div></div></div>
+        <div class="col-md-6 col-lg-4 reveal"><div class="testimonial-card"><div class="stars">★★★★★</div><p>"The team felt like an extension of ours from day one. They caught edge cases our internal team had missed for months."</p><div class="testimonial-author"><img src="https://i.pravatar.cc/100?img=51" alt="James Okafor"><div><div class="name">James Okafor</div><div class="role">CTO, Orbiq</div></div></div></div></div>
+        <div class="col-md-6 col-lg-4 reveal"><div class="testimonial-card"><div class="stars">★★★★★</div><p>"Clear timelines, transparent pricing, and a final product that exceeded what we scoped. We've since signed a long-term retainer."</p><div class="testimonial-author"><img src="https://i.pravatar.cc/100?img=14" alt="Lina Torres"><div><div class="name">Lina Torres</div><div class="role">Founder, Carewise</div></div></div></div></div>
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
   <section class="section">
     <div class="container">
       <div class="cta-section reveal">
         <div class="row align-items-center">
-          <div class="col-lg-8">
-            <h2 class="mb-2">Ready to build something great?</h2>
-            <p class="mb-0 fs-5">Book a free 30-minute strategy call — no pressure, no sales script.</p>
-          </div>
-          <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
-            <a href="contact.html" class="btn btn-primary btn-lg-custom">Book a Call <i class="bi bi-arrow-right ms-1"></i></a>
-          </div>
+          <div class="col-lg-8"><h2 class="mb-2">Ready to build something great?</h2><p class="mb-0 fs-5">Book a free 30-minute strategy call — no pressure, no sales script.</p></div>
+          <div class="col-lg-4 text-lg-end mt-4 mt-lg-0"><a href="contact.html" class="btn btn-primary btn-lg-custom">Book a Call <i class="bi bi-arrow-right ms-1"></i></a></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer class="footer-nexora">
     <div class="container">
       <div class="row gy-4">
         <div class="col-lg-4 col-md-6">
-        
           <a class="navbar-brand-custom d-inline-block mb-3" href="index.html" style="color:#fff !important;">Nexora<span style="color:var(--n-primary)">.</span></a>
           <p class="text-white-50 mb-4" style="max-width:320px;">We help ambitious SaaS and tech companies design, build and scale digital products that customers love.</p>
           <div class="d-flex gap-2">
@@ -407,22 +341,8 @@
             <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
           </div>
         </div>
-        <div class="col-lg-2 col-md-6 col-6">
-          <h6>Company</h6>
-          <a href="about.html">About Us</a>
-          <a href="services.html">Services</a>
-          <a href="portfolio.html">Portfolio</a>
-          <a href="blog.html">Blog</a>
-          <a href="contact.html">Careers</a>
-        </div>
-        <div class="col-lg-2 col-md-6 col-6">
-          <h6>Services</h6>
-          <a href="service-details.html">Product Strategy</a>
-          <a href="service-details.html">UI/UX Design</a>
-          <a href="service-details.html">Web Development</a>
-          <a href="service-details.html">Cloud &amp; DevOps</a>
-          <a href="service-details.html">Growth Marketing</a>
-        </div>
+        <div class="col-lg-2 col-md-6 col-6"><h6>Company</h6><a href="about.html">About Us</a><a href="services.html">Services</a><a href="portfolio.html">Portfolio</a><a href="blog.html">Blog</a><a href="contact.html">Careers</a></div>
+        <div class="col-lg-2 col-md-6 col-6"><h6>Services</h6><a href="service-details.html">Product Strategy</a><a href="service-details.html">UI/UX Design</a><a href="service-details.html">Web Development</a><a href="service-details.html">Cloud &amp; DevOps</a><a href="service-details.html">Growth Marketing</a></div>
         <div class="col-lg-4 col-md-6">
           <h6>Stay in the loop</h6>
           <p class="text-white-50 mb-3">Get product updates and insights from our team, once a month.</p>
@@ -433,19 +353,13 @@
         </div>
       </div>
       <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 text-center text-md-start">
-        <p class="mb-0" style="display: flex;">&copy; 2026 Nexora. All rights reserved by <a target="_blank" href="https://github.com/HarshadMahadik" style="color: white;padding-left: 5px;"> Harshad Mahadik</a> &bull; Distributed by <a target="_blank" href="https://themewagon.com/" style="color: white;padding-left: 5px;">Themewagon</a>
-        </p>
-        <div class="d-flex gap-4">
-          <a href="#" class="mb-0">Privacy Policy</a>
-          <a href="#" class="mb-0">Terms of Service</a>
-        </div>
+        <p class="mb-0" style="display:flex;">&copy; 2026 Nexora. All rights reserved by <a target="_blank" href="https://github.com/HarshadMahadik" style="color:white;padding-left:5px;"> Harshad Mahadik</a></p>
+        <div class="d-flex gap-4"><a href="#" class="mb-0">Privacy Policy</a><a href="#" class="mb-0">Terms of Service</a></div>
       </div>
     </div>
   </footer>
 
   <button class="back-to-top" aria-label="Back to top"><i class="bi bi-arrow-up"></i></button>
-
-  <!-- Bootstrap Bundle JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/main.js"></script>
 </body>
