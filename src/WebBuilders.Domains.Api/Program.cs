@@ -25,7 +25,7 @@ app.UseExceptionHandler();
 app.UseCors();
 
 // Serve the static website so the page and the API share one origin.
-var siteRoot = Path.GetFullPath(Path.Combine(builder.Environment.ContentRootPath, builder.Configuration["Site:Root"] ?? "../../.."));
+var siteRoot = Path.GetFullPath(Path.Combine(builder.Environment.ContentRootPath, builder.Configuration["Site:Root"] ?? "wwwroot"));
 if (Directory.Exists(siteRoot))
 {
     var files = new PhysicalFileProvider(siteRoot);

@@ -1,0 +1,61 @@
+# ---------------------------------------------------------------
+#  Web Builders — website + .NET Domains API
+# ---------------------------------------------------------------
+
+# --- .NET build output ---
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+[Ll]og/
+[Ll]ogs/
+publish/
+artifacts/
+*.nupkg
+*.snupkg
+
+# --- Visual Studio / Rider / VS Code ---
+.vs/
+.idea/
+*.user
+*.suo
+*.userprefs
+*.sln.docstates
+*.rsuser
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# --- Test results / coverage ---
+[Tt]est[Rr]esult*/
+coverage/
+*.coverage
+*.trx
+
+# --- Secrets & local configuration (never commit keys) ---
+# Local keys live in .NET user-secrets (outside the repo); server keys live in IIS.
+*.env
+.env.*
+appsettings.*.local.json
+appsettings.Local.json
+secrets.json
+*.pfx
+*.p12
+*.pem
+*.key
+
+# --- IIS deployment helpers ---
+app_offline.htm
+
+# --- Node (if front-end tooling is added later) ---
+node_modules/
+npm-debug.log*
+
+# --- OS files ---
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/

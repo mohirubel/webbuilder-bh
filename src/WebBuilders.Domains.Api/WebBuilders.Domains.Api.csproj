@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!-- Presentation tier and composition root: references both other tiers to wire them together. -->
+  <PropertyGroup>
+    <UserSecretsId>e4a0d0c1-759a-4f5a-aa0a-afd145a14e91</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebBuilders.Domains.Business\WebBuilders.Domains.Business.csproj" />
+    <ProjectReference Include="..\WebBuilders.Domains.Data\WebBuilders.Domains.Data.csproj" />
+  </ItemGroup>
+
+  <!-- On publish, ship the static website in wwwroot so one IIS site serves both the pages and the API.
+       During development the site is served straight from /website (Site:Root in appsettings.json). -->
+  <PropertyGroup>
+    <SiteSourceRoot>$([MSBuild]::NormalizeDirectory($(MSBuildProjectDirectory), '..', '..', 'website'))</SiteSourceRoot>
+  </PropertyGroup>
+
+  <!-- Local-only settings stay off the server. -->
+  <ItemGroup>
+    <Content Update="appsettings.Development.json" CopyToPublishDirectory="Never" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SiteFile Include="$(SiteSourceRoot)**" />
+    <ResolvedFileToPublish Include="@(SiteFile)" RelativePath="wwwroot\$([MSBuild]::MakeRelative($(SiteSourceRoot), %(FullPath)))" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

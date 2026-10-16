@@ -1,6 +1,6 @@
 /* =====================================================
    Web Builders — Domain search, cart & card checkout
-   Talks to the .NET Domains API (server/) and Stripe.js.
+   Talks to the .NET Domains API (src/) and Stripe.js.
    ===================================================== */
 (function () {
   'use strict';
@@ -113,7 +113,7 @@
     try {
       state.config = await api('/api/store/config');
     } catch (err) {
-      showAlert(`${err.message} Start it with "dotnet run" in server/src/WebBuilders.Domains.Api (see server/README.md).`);
+      showAlert(`${err.message} Start it with "dotnet run" in src/WebBuilders.Domains.Api (see docs/local-development.md).`);
       return;
     }
 
@@ -287,7 +287,7 @@
     showAlert(null);
     if (!state.config) return showAlert('The domain service is offline.');
     if (!state.config.paymentsEnabled) {
-      return showAlert('Card payments are not configured on the server yet. Add Stripe test keys (see server/README.md).');
+      return showAlert('Card payments are not configured on the server yet. Add Stripe test keys (see docs/local-development.md).');
     }
     showPanel('checkout');
     window.scrollTo({ top: $('.domain-section').offsetTop - 80, behavior: 'smooth' });
