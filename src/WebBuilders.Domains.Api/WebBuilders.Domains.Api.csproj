@@ -3,6 +3,9 @@
   <!-- Presentation tier and composition root: references both other tiers to wire them together. -->
   <PropertyGroup>
     <UserSecretsId>e4a0d0c1-759a-4f5a-aa0a-afd145a14e91</UserSecretsId>
+    <!-- Run through "dotnet WebBuilders.Domains.Api.dll" (also what IIS uses), never a generated .exe:
+         some machines block unsigned executables ("Access is denied"). -->
+    <UseAppHost>false</UseAppHost>
   </PropertyGroup>
 
   <ItemGroup>

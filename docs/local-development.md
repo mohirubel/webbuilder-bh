@@ -4,7 +4,7 @@ Run the website and the Domains API on your own machine against the **sandbox** 
 
 | | Local | Server |
 | --- | --- | --- |
-| Command | `dotnet run` (in `src/WebBuilders.Domains.Api`) | `./deploy/deploy.ps1` (from the repo root) |
+| Command | `.\run-local` | `.\deploy-server` |
 | URL | <http://localhost:5080> | <https://webbuilder.byteheart.com> |
 | Environment | `Development` (set by `launchSettings.json`) | `Production` |
 | Settings | `appsettings.json` + `appsettings.Development.json` | `appsettings.json` + generated `appsettings.Production.json` |
@@ -21,16 +21,23 @@ Deploying: [server-deployment.md](server-deployment.md).
 
 ## 1. Run it
 
-```bash
-cd src/WebBuilders.Domains.Api
-dotnet run
+From the repository root:
+
+```powershell
+.\run-local
 ```
 
-Open <http://localhost:5080/domains.html>. Locally the API also serves the website straight from `/website`, so
-every page works at the same address (e.g. <http://localhost:5080/index.html>) and HTML/CSS/JS edits show up on
-refresh.
+It builds, starts the site at <http://localhost:5080> and opens `domains.html` in your browser. Stop it with
+**Ctrl+C**. If a copy is already running, it is stopped first, so port 5080 is never "already in use".
 
-From Visual Studio: open `WebBuilders.slnx`, set **WebBuilders.Domains.Api** as the startup project, press F5.
+Other ways to start it:
+
+- **VS Code:** **Ctrl+Shift+B**, or **Terminal → Run Task… → Run locally**
+- **Visual Studio:** open `WebBuilders.slnx`, set **WebBuilders.Domains.Api** as the startup project, press F5
+- **By hand:** `cd src/WebBuilders.Domains.Api` then `dotnet run`
+
+Locally the API also serves the website straight from `/website`, so every page works at the same address
+(e.g. <http://localhost:5080/index.html>) and HTML/CSS/JS edits show up on refresh.
 
 With no keys, it still runs: search uses public RDAP registry lookups, registrations are simulated and checkout
 says payments are not configured. Add the keys below for the full flow.
@@ -88,8 +95,7 @@ The domain appears in your Namecheap sandbox account and the payment in your Str
 
 | Symptom | Fix |
 | --- | --- |
-| `address already in use` on port 5080 | Another copy is running. Stop it (`Get-Process WebBuilders.Domains.Api \| Stop-Process`) or close the other terminal |
-| "Access is denied" starting the `.exe` | Run the DLL instead: `dotnet bin/Debug/net10.0/WebBuilders.Domains.Api.dll` with `ASPNETCORE_ENVIRONMENT=Development` set |
+| `address already in use` on port 5080 | Something else uses the port. `.\run-local` stops older copies of this app; otherwise close the program using it |
 | Keys ignored | The app is not running as `Development` (user-secrets load only there), or it was not restarted |
 | Namecheap error 1011150 "Invalid request IP" | Your public IP changed or is not whitelisted |
 | `.io` / `.co` show "Unknown" | Namecheap is not configured; these registries have no public RDAP lookup |

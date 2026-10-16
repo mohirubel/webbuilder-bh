@@ -7,7 +7,7 @@ One site serves both the website pages and the Domains API (`/api/...`). Deploym
 
 | | Local | Server |
 | --- | --- | --- |
-| Command | `dotnet run` (in `src/WebBuilders.Domains.Api`) | `./deploy/deploy.ps1` (from the repo root) |
+| Command | `.\run-local` | `.\deploy-server` |
 | URL | <http://localhost:5080> | <https://webbuilder.byteheart.com> |
 | Environment | `Development` | `Production` |
 | Settings | `appsettings.json` + `appsettings.Development.json` | `appsettings.json` + generated `appsettings.Production.json` |
@@ -20,10 +20,12 @@ Local setup: [local-development.md](local-development.md).
 ## Deploy files
 
 ```
+deploy-server.cmd           The command you run (wrapper)
 deploy/
-├─ deploy.ps1             Build + upload script
-├─ deploy.settings.json   Site URL, FTP host/user, server IP (no secrets; committed)
-└─ app_offline.htm        "Updating" page shown during the upload
+├─ deploy.ps1               Build + upload script
+├─ deploy.settings.json     Site URL, FTP host/user, server IP (no secrets; committed)
+├─ app_offline.htm          "Updating" page shown during the upload
+└─ pause-if-double-clicked.cmd   Keeps the window open when started from Explorer
 ```
 
 Passwords and keys are **never** stored in the repository:
@@ -44,11 +46,13 @@ Passwords and keys are **never** stored in the repository:
 
 ## Deploy
 
-From the repository root, in PowerShell:
+From the repository root, in any terminal (or double-click `deploy-server.cmd` in Explorer):
 
 ```powershell
-./deploy/deploy.ps1
+.\deploy-server
 ```
+
+In VS Code: **Terminal → Run Task… → Deploy to server**.
 
 It asks for the FTP password, then:
 
@@ -74,9 +78,11 @@ Deployed: https://webbuilder.byteheart.com/domains.html
 Other options:
 
 ```powershell
-$env:WB_FTP_PASSWORD = '...'; ./deploy/deploy.ps1   # no password prompt (e.g. CI)
-./deploy/deploy.ps1 -BuildOnly                      # build into artifacts/publish, upload nothing
+.\deploy-server -BuildOnly                          # build into artifacts\publish, upload nothing
+$env:WB_FTP_PASSWORD = '...'; .\deploy-server       # no password prompt (e.g. CI)
 ```
+
+`deploy-server.cmd` is a thin wrapper around `deploy/deploy.ps1`; both accept the same options.
 
 ### Known warning
 

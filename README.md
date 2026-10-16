@@ -22,9 +22,12 @@ webbuilder-bh/
 │  ├─ WebBuilders.Domains.Business   Business: services, models, rules, abstractions
 │  └─ WebBuilders.Domains.Data       Data: Namecheap/RDAP registrars, Stripe gateway, repository
 ├─ deploy/                       Server deployment
-│  ├─ deploy.ps1                 Build + upload over FTPS (one command)
+│  ├─ deploy.ps1                 Build + upload over FTPS (called by deploy-server.cmd)
 │  ├─ deploy.settings.json       Site URL, FTP host/user, server IP (no secrets)
 │  └─ app_offline.htm            "Updating" page shown during upload
+├─ run-local.cmd                 Run locally          → .\run-local
+├─ deploy-server.cmd             Deploy to the server → .\deploy-server
+├─ .vscode/tasks.json            The same two commands as VS Code tasks
 ├─ docs/
 │  ├─ local-development.md       Run on your PC with the sandbox accounts
 │  ├─ server-deployment.md       Deploy to webbuilder.byteheart.com
@@ -38,22 +41,32 @@ webbuilder-bh/
 One site serves everything: the .NET app hosts the website pages and the `/api` endpoints together, locally and on
 the server.
 
+## Commands
+
+Run from the repository root in any terminal (PowerShell or cmd), or double-click the file in Explorer:
+
+| Command | What it does |
+| --- | --- |
+| `.\run-local` | Runs the site on your PC at <http://localhost:5080> and opens the domain shop. Stop with **Ctrl+C**. |
+| `.\deploy-server` | Builds and deploys to <https://webbuilder.byteheart.com>. Asks for the FTP password. |
+| `.\deploy-server -BuildOnly` | Builds the server package into `artifacts\publish` without uploading. |
+
+In **VS Code**: **Terminal → Run Task…** → *Run locally*, *Deploy to server* or *Build server package only*.
+*Run locally* is also the default build task (**Ctrl+Shift+B**).
+
 ## Local development
 
-```bash
-cd src/WebBuilders.Domains.Api
-dotnet run
+```powershell
+.\run-local
 ```
 
-Open <http://localhost:5080/domains.html>. Search works straight away. To enable card checkout and real sandbox
-registrations, add the Stripe and Namecheap sandbox keys as user-secrets: **[docs/local-development.md](docs/local-development.md)**.
+Search works straight away. To enable card checkout and real sandbox registrations, add the Stripe and Namecheap
+sandbox keys as user-secrets once: **[docs/local-development.md](docs/local-development.md)**.
 
 ## Server deployment
 
-From the repository root, in PowerShell:
-
 ```powershell
-./deploy/deploy.ps1
+.\deploy-server
 ```
 
 It asks for the FTP password, builds the Release version, adds the server keys from your user-secrets, uploads over
@@ -63,7 +76,7 @@ FTPS and checks the live site. Details and troubleshooting: **[docs/server-deplo
 
 | | Local | Server |
 | --- | --- | --- |
-| Command | `dotnet run` | `./deploy/deploy.ps1` |
+| Command | `.\run-local` | `.\deploy-server` |
 | URL | <http://localhost:5080> | <https://webbuilder.byteheart.com> |
 | Environment | `Development` | `Production` |
 | Website served from | `/website` | `wwwroot` in the uploaded build |

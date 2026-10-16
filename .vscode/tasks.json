@@ -1,0 +1,35 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run locally",
+      "detail": "Website + Domains API at http://localhost:5080",
+      "type": "shell",
+      "command": "${workspaceFolder}\\run-local.cmd",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "dotnet",
+        "pattern": { "regexp": "^(.*)\\((\\d+),(\\d+)\\): error (.*)$", "file": 1, "line": 2, "column": 3, "message": 4 },
+        "background": { "activelyBeginsPattern": "Building\\.\\.\\.", "activelyEndsPattern": "Now listening on" }
+      },
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": { "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Deploy to server",
+      "detail": "Build and upload to https://webbuilder.byteheart.com",
+      "type": "shell",
+      "command": "${workspaceFolder}\\deploy-server.cmd",
+      "problemMatcher": [],
+      "presentation": { "panel": "dedicated", "clear": true, "focus": true }
+    },
+    {
+      "label": "Build server package only",
+      "detail": "Create artifacts/publish without uploading",
+      "type": "shell",
+      "command": "${workspaceFolder}\\deploy-server.cmd -BuildOnly",
+      "problemMatcher": [],
+      "presentation": { "panel": "dedicated", "clear": true }
+    }
+  ]
+}
