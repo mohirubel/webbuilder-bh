@@ -13,7 +13,8 @@ builder.Services.AddControllers();
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<DomainsExceptionHandler>();
 
-var allowedOrigins = builder.Configuration.GetSection("Site:AllowedOrigins").Get<string[]>() ?? [];
+// Page and API share one origin, so CORS is only needed for extra local tools (e.g. VS Code Live Server).
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
 builder.Services.AddCors(o => o.AddDefaultPolicy(p => p
     .WithOrigins(allowedOrigins)
     .WithMethods("GET", "POST")
@@ -24,13 +25,22 @@ var app = builder.Build();
 app.UseExceptionHandler();
 app.UseCors();
 
-// Serve the static website so the page and the API share one origin.
-var siteRoot = Path.GetFullPath(Path.Combine(builder.Environment.ContentRootPath, builder.Configuration["Site:Root"] ?? "wwwroot"));
-if (Directory.Exists(siteRoot))
+// Serve the static website next to the API: from /website locally, from wwwroot on the server.
+// Leave Website:Root empty to run the API on its own.
+var websiteRoot = builder.Configuration["Website:Root"];
+if (!string.IsNullOrWhiteSpace(websiteRoot))
 {
-    var files = new PhysicalFileProvider(siteRoot);
-    app.UseDefaultFiles(new DefaultFilesOptions { FileProvider = files });
-    app.UseStaticFiles(new StaticFileOptions { FileProvider = files });
+    var fullPath = Path.GetFullPath(Path.Combine(builder.Environment.ContentRootPath, websiteRoot));
+    if (Directory.Exists(fullPath))
+    {
+        var files = new PhysicalFileProvider(fullPath);
+        app.UseDefaultFiles(new DefaultFilesOptions { FileProvider = files });
+        app.UseStaticFiles(new StaticFileOptions { FileProvider = files });
+    }
+}
+else
+{
+    app.MapGet("/", () => Results.Ok(new { service = "Web Builders Domains API", status = "ok" }));
 }
 
 app.MapControllers();

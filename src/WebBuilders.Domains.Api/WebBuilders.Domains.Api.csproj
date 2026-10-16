@@ -10,20 +10,20 @@
     <ProjectReference Include="..\WebBuilders.Domains.Data\WebBuilders.Domains.Data.csproj" />
   </ItemGroup>
 
-  <!-- On publish, ship the static website in wwwroot so one IIS site serves both the pages and the API.
-       During development the site is served straight from /website (Site:Root in appsettings.json). -->
+  <!-- On publish, ship the static website in wwwroot so one site serves both the pages and the API.
+       Locally the website is served straight from /website (Website:Root in appsettings.Development.json). -->
   <PropertyGroup>
-    <SiteSourceRoot>$([MSBuild]::NormalizeDirectory($(MSBuildProjectDirectory), '..', '..', 'website'))</SiteSourceRoot>
+    <WebsiteSourceRoot>$([MSBuild]::NormalizeDirectory($(MSBuildProjectDirectory), '..', '..', 'website'))</WebsiteSourceRoot>
   </PropertyGroup>
+
+  <ItemGroup>
+    <WebsiteFile Include="$(WebsiteSourceRoot)**" />
+    <ResolvedFileToPublish Include="@(WebsiteFile)" RelativePath="wwwroot\$([MSBuild]::MakeRelative($(WebsiteSourceRoot), %(FullPath)))" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
 
   <!-- Local-only settings stay off the server. -->
   <ItemGroup>
     <Content Update="appsettings.Development.json" CopyToPublishDirectory="Never" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <SiteFile Include="$(SiteSourceRoot)**" />
-    <ResolvedFileToPublish Include="@(SiteFile)" RelativePath="wwwroot\$([MSBuild]::MakeRelative($(SiteSourceRoot), %(FullPath)))" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

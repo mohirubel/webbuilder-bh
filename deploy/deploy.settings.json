@@ -1,0 +1,11 @@
+{
+  "siteUrl": "https://webbuilder.byteheart.com",
+  "ftp": {
+    "host": "win8107.site4now.net",
+    "user": "devwebbuilder",
+    "remotePath": ""
+  },
+  "namecheap": {
+    "serverClientIp": "208.98.35.107"
+  }
+}

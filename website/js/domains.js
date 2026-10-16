@@ -8,9 +8,8 @@
   const $ = (sel) => document.querySelector(sel);
 
   /* ---------- API ---------- */
+  // The API is served from the same site as the page (locally and on the server).
   const apiBase = (() => {
-    const meta = document.querySelector('meta[name="domains-api"]')?.content?.trim();
-    if (meta) return meta.replace(/\/$/, '');
     // Opened from disk or VS Code Live Server: point at the local API.
     if (location.protocol === 'file:' || location.port === '5500') return 'http://localhost:5080';
     return '';

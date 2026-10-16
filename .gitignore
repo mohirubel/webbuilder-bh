@@ -46,8 +46,8 @@ secrets.json
 *.pem
 *.key
 
-# --- IIS deployment helpers ---
-app_offline.htm
+# --- Deployment (keys are generated into artifacts/ by deploy/deploy.ps1, never committed) ---
+deploy/*.local.json
 
 # --- Node (if front-end tooling is added later) ---
 node_modules/

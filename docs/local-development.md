@@ -4,14 +4,15 @@ Run the website and the Domains API on your own machine against the **sandbox** 
 
 | | Local | Server |
 | --- | --- | --- |
-| Environment | `Development` (set by `launchSettings.json`) | `Production` (default) |
-| Settings file | `appsettings.json` + `appsettings.Development.json` | `appsettings.json` |
-| Website served from | `/website` in the repo | `wwwroot` inside the published folder |
-| Keys stored in | .NET user-secrets on your PC | Environment variables on the IIS site |
-| URL | <http://localhost:5080> | `https://your-domain` |
-| Namecheap whitelisted IP | Your PC's public IP | The server's public IP |
+| Command | `dotnet run` (in `src/WebBuilders.Domains.Api`) | `./deploy/deploy.ps1` (from the repo root) |
+| URL | <http://localhost:5080> | <https://webbuilder.byteheart.com> |
+| Environment | `Development` (set by `launchSettings.json`) | `Production` |
+| Settings | `appsettings.json` + `appsettings.Development.json` | `appsettings.json` + generated `appsettings.Production.json` |
+| Website served from | `/website` in the repo | `wwwroot` in the uploaded build |
+| Keys | .NET user-secrets on your PC | The same user-secrets, written into the build by the deploy script |
+| Namecheap `ClientIp` | Your PC's public IP | The server's IP (`deploy/deploy.settings.json`) |
 
-For the server, see [server-deployment.md](server-deployment.md).
+Deploying: [server-deployment.md](server-deployment.md).
 
 ## Prerequisites
 
@@ -25,8 +26,9 @@ cd src/WebBuilders.Domains.Api
 dotnet run
 ```
 
-Open <http://localhost:5080/domains.html>. The API also serves the website from `/website`, so every page works at
-the same address (e.g. <http://localhost:5080/index.html>).
+Open <http://localhost:5080/domains.html>. Locally the API also serves the website straight from `/website`, so
+every page works at the same address (e.g. <http://localhost:5080/index.html>) and HTML/CSS/JS edits show up on
+refresh.
 
 From Visual Studio: open `WebBuilders.slnx`, set **WebBuilders.Domains.Api** as the startup project, press F5.
 
@@ -39,7 +41,8 @@ says payments are not configured. Add the keys below for the full flow.
 ## 2. Add the sandbox keys
 
 Keys are stored with [.NET user-secrets](https://learn.microsoft.com/aspnet/core/security/app-secrets), in your
-user profile and outside the repository. Run these from `src/WebBuilders.Domains.Api`:
+user profile and outside the repository. The deploy script reads the same keys for the server. Run these from
+`src/WebBuilders.Domains.Api`:
 
 ### Stripe (test mode): card payments
 
@@ -54,13 +57,14 @@ dotnet user-secrets set "Stripe:SecretKey" "sk_test_..."
 
 1. Create an account at <https://www.sandbox.namecheap.com/>.
 2. **Profile → Tools → Namecheap API Access**: turn the API on and copy the key.
-3. Under **Whitelisted IPs**, add your PC's public IPv4 (see <https://api.ipify.org>).
+3. Under **Whitelisted IPs**, add your PC's public IPv4 (see <https://api.ipify.org>) and the server's
+   (`208.98.35.107`).
 4. Make sure the sandbox account has funds (fake money; new accounts usually do).
 
 ```bash
 dotnet user-secrets set "Namecheap:ApiUser" "your-sandbox-username"
 dotnet user-secrets set "Namecheap:ApiKey" "your-sandbox-api-key"
-dotnet user-secrets set "Namecheap:ClientIp" "your-public-ip"
+dotnet user-secrets set "Namecheap:ClientIp" "your-pc-public-ip"
 ```
 
 Check what is set with `dotnet user-secrets list`. **Restart `dotnet run` after changing keys.**

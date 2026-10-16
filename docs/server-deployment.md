@@ -1,98 +1,113 @@
-# Server deployment (Windows Server + IIS)
+# Server deployment
 
-One IIS site serves the whole website **and** the Domains API. On publish, the contents of `/website` are copied
-into `wwwroot`, so the deploy folder is self-contained.
+The site runs at **<https://webbuilder.byteheart.com>** on Windows/IIS shared hosting (site4now), with .NET 10.
+One site serves both the website pages and the Domains API (`/api/...`). Deployment is one command over FTPS.
 
-How the server differs from local development:
+## How the server differs from local
 
 | | Local | Server |
 | --- | --- | --- |
-| Environment | `Development` | `Production` (default when nothing is set) |
-| Settings file | `appsettings.json` + `appsettings.Development.json` | `appsettings.json` only |
-| Website served from | `/website` in the repo | `wwwroot` in the published folder |
-| Keys stored in | .NET user-secrets | Environment variables on the IIS site |
-| Namecheap whitelisted IP | Your PC's public IP | **The server's** public IP |
-| HTTPS | Not needed | Required (your site's existing certificate) |
+| Command | `dotnet run` (in `src/WebBuilders.Domains.Api`) | `./deploy/deploy.ps1` (from the repo root) |
+| URL | <http://localhost:5080> | <https://webbuilder.byteheart.com> |
+| Environment | `Development` | `Production` |
+| Settings | `appsettings.json` + `appsettings.Development.json` | `appsettings.json` + generated `appsettings.Production.json` |
+| Website served from | `/website` in the repo | `wwwroot` in the uploaded build |
+| Stripe / Namecheap keys | .NET user-secrets | Same user-secrets, written into the build by the deploy script |
+| Namecheap `ClientIp` | Your PC's public IP | `208.98.35.107` (from `deploy/deploy.settings.json`) |
 
-For local setup, see [local-development.md](local-development.md).
+Local setup: [local-development.md](local-development.md).
 
-## One-time server setup
+## Deploy files
 
-### 1. Install the hosting bundle
-
-Download the **ASP.NET Core 10 Hosting Bundle** from <https://dotnet.microsoft.com/download/dotnet/10.0>
-(under *ASP.NET Core Runtime → Windows → Hosting Bundle*), install it, then restart IIS from an elevated prompt:
-
-```bat
-net stop was /y
-net start w3svc
+```
+deploy/
+├─ deploy.ps1             Build + upload script
+├─ deploy.settings.json   Site URL, FTP host/user, server IP (no secrets; committed)
+└─ app_offline.htm        "Updating" page shown during the upload
 ```
 
-### 2. Create the application pool and site
+Passwords and keys are **never** stored in the repository:
 
-1. IIS Manager → **Application Pools → Add**: name `WebBuilders`, **.NET CLR version = No Managed Code**.
-2. Create the deploy folder, e.g. `C:\inetpub\webbuilders`.
-3. Point your existing HTTPS site at that folder (**Basic Settings → Physical path**) and select the `WebBuilders`
-   pool. Keep the existing HTTPS binding and certificate.
+- **FTP password:** read from the `WB_FTP_PASSWORD` environment variable, or asked for when the script runs.
+- **Stripe / Namecheap keys:** read from your local .NET user-secrets (the same ones `dotnet run` uses) and written
+  only into `artifacts/publish/appsettings.Production.json`. `artifacts/` is git-ignored.
 
-### 3. Set the keys on the site
+## One-time setup
 
-Server keys are environment variables on the IIS site. They are stored in IIS's `applicationHost.config`, outside
-the deploy folder, so redeploys never overwrite them. Run in an **elevated** Command Prompt and replace the values
-and site name:
+1. **Keys on your PC.** Set the Stripe and Namecheap user-secrets as in
+   [local-development.md](local-development.md#2-add-the-sandbox-keys). Check with
+   `dotnet user-secrets list --project src/WebBuilders.Domains.Api`.
+2. **Whitelist the server in Namecheap.** In the sandbox: **Profile → Tools → Namecheap API Access →
+   Whitelisted IPs**, add **`208.98.35.107`** (keep your PC's IP too, for local runs).
+3. **Hosting control panel.** The site must use **.NET Core** (10.x) hosting. Nothing else needs configuring:
+   the build includes its own `web.config`.
 
-```bat
-set APPCMD=%windir%\system32\inetsrv\appcmd.exe
-set SITE=Default Web Site
+## Deploy
 
-%APPCMD% set config "%SITE%" -section:system.webServer/aspNetCore /+"environmentVariables.[name='Stripe__PublishableKey',value='pk_test_...']" /commit:apphost
-%APPCMD% set config "%SITE%" -section:system.webServer/aspNetCore /+"environmentVariables.[name='Stripe__SecretKey',value='sk_test_...']" /commit:apphost
-%APPCMD% set config "%SITE%" -section:system.webServer/aspNetCore /+"environmentVariables.[name='Namecheap__ApiUser',value='your-sandbox-username']" /commit:apphost
-%APPCMD% set config "%SITE%" -section:system.webServer/aspNetCore /+"environmentVariables.[name='Namecheap__ApiKey',value='your-sandbox-api-key']" /commit:apphost
-%APPCMD% set config "%SITE%" -section:system.webServer/aspNetCore /+"environmentVariables.[name='Namecheap__ClientIp',value='SERVER-PUBLIC-IP']" /commit:apphost
+From the repository root, in PowerShell:
+
+```powershell
+./deploy/deploy.ps1
 ```
 
-Names use a **double underscore** (`Stripe__SecretKey`). To change a value later, remove it first with
-`/-"environmentVariables.[name='Stripe__SecretKey']"` and add it again.
+It asks for the FTP password, then:
 
-### 4. Whitelist the server in Namecheap
+1. Builds the Release version into `artifacts/publish` (API + website in `wwwroot`).
+2. Writes `appsettings.Production.json` with the keys from user-secrets and the server's IP.
+3. Uploads `app_offline.htm`, so IIS stops the app and releases its files.
+4. Uploads all files over FTPS. Failed files are retried, one at a time.
+5. Removes `app_offline.htm`. This always happens, even after an error, so the site never stays on the
+   "updating" page.
+6. Checks the live site and prints the registrar and payment status.
 
-Find the server's public IPv4 (on the server, open <https://api.ipify.org>) and add it in the Namecheap sandbox:
-**Profile → Tools → Namecheap API Access → Whitelisted IPs**. It must equal `Namecheap__ClientIp`.
+A successful run ends with:
 
-## Every release
+```
+==> Checking https://webbuilder.byteheart.com
+  domains.html  : HTTP 200
+  Registrar     : Namecheap Sandbox
+  Card payments : enabled (Stripe test mode)
 
-### 1. Publish (on your PC or a build agent)
-
-From the repository root:
-
-```bash
-dotnet publish src/WebBuilders.Domains.Api -c Release -o publish -p:UseAppHost=false
+Deployed: https://webbuilder.byteheart.com/domains.html
 ```
 
-The `publish` folder contains the API, `web.config` for IIS and the website in `wwwroot`. It contains **no keys**.
+Other options:
 
-### 2. Copy to the server
+```powershell
+$env:WB_FTP_PASSWORD = '...'; ./deploy/deploy.ps1   # no password prompt (e.g. CI)
+./deploy/deploy.ps1 -BuildOnly                      # build into artifacts/publish, upload nothing
+```
 
-1. Put an `app_offline.htm` file in the site folder. IIS stops the app, which unlocks its files.
-2. Copy everything from `publish` into the site folder, replacing existing files.
-3. Delete `app_offline.htm`.
+### Known warning
 
-### 3. Check
+```
+WARNING: Server refused website file: wwwroot\assets\images\avatar\avatar-9.jpg
+WARNING: Server refused website file: wwwroot\assets\images\ecommerce\product-5.jpg
+```
 
-Open `https://your-domain/domains.html`. Under the search box it should read
-*Sandbox · Registrar: Namecheap Sandbox · Payments: Stripe test mode*. Then buy a domain with card
-`4242 4242 4242 4242`.
+The host's FTP filter rejects these two sample images from the admin template. No page uses them, so the
+warning is harmless. If an **application** file (DLL, config) is refused, the script stops with an error
+instead; run it again.
+
+## Changing server settings
+
+| To change | Edit | Then |
+| --- | --- | --- |
+| Stripe or Namecheap keys | Your user-secrets | Deploy |
+| Server IP for Namecheap | `deploy/deploy.settings.json` → `namecheap.serverClientIp` | Deploy |
+| FTP host or user, site URL | `deploy/deploy.settings.json` | Deploy |
+| Prices, extensions | `src/WebBuilders.Domains.Api/appsettings.json` → `Pricing` | Deploy |
 
 ## Troubleshooting
 
 | Symptom | Fix |
 | --- | --- |
-| HTTP 500.19 | Hosting Bundle not installed, or IIS not restarted after installing |
-| HTTP 500.30 / 500.31 | In the deployed `web.config` set `stdoutLogEnabled="true"`, create a `logs` folder next to it, reload, read the log |
-| Pages return 404 but `/api/store/config` works | `wwwroot` was not copied; publish again and copy the whole folder |
-| "Registrations are simulated" / Payments "not configured" | Environment variables missing or misspelled; **recycle the app pool** after changing them |
-| Namecheap error 1011150 "Invalid request IP" | Server's IP not whitelisted, or differs from `Namecheap__ClientIp` |
+| Search shows "Namecheap: Invalid request IP: x.x.x.x" | Whitelist that IP in the Namecheap sandbox. If it differs from `serverClientIp`, update `deploy.settings.json` and deploy |
+| "Missing user-secrets: ..." | Set the listed keys (see local-development.md) |
+| curl `(67)` / login failed | Wrong FTP password |
+| HTTP 500.30 / 500.31 | In the control panel, check the site uses .NET Core 10; read the logs under the site's `logs` folder (enable `stdoutLogEnabled="true"` in the server's `web.config` temporarily) |
+| Site stuck on "We're updating the site" | Delete `app_offline.htm` from the site root over FTP |
+| Payments "NOT configured" after deploy | The Stripe keys in user-secrets are missing or not `pk_test_` / `sk_test_` |
 
 ## Going live (real money, real domains)
 
