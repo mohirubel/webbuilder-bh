@@ -24,6 +24,9 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
+# Windows PowerShell 5.1 may default to old TLS versions for the final site check.
+[Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+
 $repoRoot     = Split-Path -Parent $PSScriptRoot
 $apiProject   = Join-Path $repoRoot 'src\WebBuilders.Domains.Api'
 $publishDir   = Join-Path $repoRoot 'artifacts\publish'
@@ -36,7 +39,9 @@ $settings = Get-Content $settingsFile -Raw | ConvertFrom-Json
 
 # ---------------------------------------------------------------- server settings from user-secrets
 function Get-ServerSettings {
+    $ErrorActionPreference = 'Continue'   # see Invoke-Curl: keep native stderr from becoming an exception
     $raw = & dotnet user-secrets list --json --project $apiProject 2>$null
+    $ErrorActionPreference = 'Stop'
     if ($LASTEXITCODE -ne 0) { throw 'Could not read user-secrets. See docs/local-development.md to set the keys.' }
 
     $json    = ($raw | Where-Object { $_ -notmatch '^//(BEGIN|END)' }) -join "`n"
@@ -98,9 +103,21 @@ $curlConfig = New-TemporaryFile
     'fail-early'
 ) | Set-Content $curlConfig -Encoding ascii
 
-function Invoke-Ftp([string[]]$arguments) {
-    & curl.exe -K $curlConfig.FullName @arguments
-    if ($LASTEXITCODE -ne 0) { throw "FTP command failed (curl exit code $LASTEXITCODE)." }
+# Runs curl and returns its exit code. Error messages curl prints never become PowerShell exceptions:
+# Windows PowerShell 5.1 turns a native program's redirected stderr into a terminating error under
+# ErrorActionPreference=Stop, which would skip the retry logic below. -Quiet hides curl's messages.
+function Invoke-Curl([string[]]$arguments, [switch]$Quiet) {
+    $ErrorActionPreference = 'Continue'
+    if ($Quiet) { & curl.exe -K $curlConfig.FullName @arguments 2>&1 | Out-Null }
+    else        { & curl.exe -K $curlConfig.FullName @arguments | Out-Host }
+    return $LASTEXITCODE
+}
+
+# Names of the files in the remote site folder.
+function Get-RemoteListing {
+    $ErrorActionPreference = 'Continue'
+    $lines = & curl.exe -K $curlConfig.FullName --list-only $baseUrl 2>$null
+    return @($lines | ForEach-Object { $_.Trim() })
 }
 
 function Get-RemoteUrl($file) {
@@ -113,25 +130,36 @@ function Get-RemoteUrl($file) {
 # Returns the files that still failed after 3 attempts.
 function Send-Batch($batch) {
     $arguments = foreach ($file in $batch) { '-T'; $file.FullName; (Get-RemoteUrl $file) }
-    & curl.exe -K $curlConfig.FullName @arguments 2>$null
-    if ($LASTEXITCODE -eq 0) { return @() }
+    if ((Invoke-Curl $arguments -Quiet) -eq 0) { return @() }
 
     $failed = @()
     foreach ($file in $batch) {
         for ($attempt = 1; $attempt -le 3; $attempt++) {
-            & curl.exe -K $curlConfig.FullName -T $file.FullName (Get-RemoteUrl $file) 2>$null
-            if ($LASTEXITCODE -eq 0) { break }
+            if ((Invoke-Curl @('-T', $file.FullName, (Get-RemoteUrl $file)) -Quiet) -eq 0) { break }
             if ($attempt -eq 3) { $failed += $file } else { Start-Sleep -Seconds (2 * $attempt) }
         }
     }
     return $failed
 }
 
+# Deletes app_offline.htm and checks the folder listing until it is really gone.
+function Remove-AppOffline {
+    $target = if ($remotePath) { "$remotePath/app_offline.htm" } else { 'app_offline.htm' }
+    for ($attempt = 1; $attempt -le 5; $attempt++) {
+        Invoke-Curl @('-Q', "DELE $target", "ftp://$($ftp.host)/", '--list-only', '-o', 'NUL') -Quiet | Out-Null
+        if ((Get-RemoteListing) -notcontains 'app_offline.htm') { return $true }
+        Start-Sleep -Seconds (3 * $attempt)
+    }
+    return $false
+}
+
 $failedFiles = @()
 $wentOffline = $false
 try {
     Write-Step "Taking $siteUrl offline (app_offline.htm)"
-    Invoke-Ftp @('-T', $offlinePage, "${baseUrl}app_offline.htm")
+    if ((Invoke-Curl @('-T', $offlinePage, "${baseUrl}app_offline.htm")) -ne 0) {
+        throw 'Could not connect to the FTP server (check the password and deploy.settings.json).'
+    }
     $wentOffline = $true
     Start-Sleep -Seconds 5   # give IIS time to stop the app and release the DLLs
 
@@ -147,9 +175,9 @@ finally {
     # Always bring the site back, even when an upload failed, so it never stays on the "updating" page.
     if ($wentOffline) {
         Write-Step 'Bringing the site back online'
-        $deleteTarget = if ($remotePath) { "$remotePath/app_offline.htm" } else { 'app_offline.htm' }
-        & curl.exe -K $curlConfig.FullName -Q "DELE $deleteTarget" "ftp://$($ftp.host)/" --list-only -o NUL
-        if ($LASTEXITCODE -ne 0) { Write-Warning "Could not remove app_offline.htm; delete it from the site root over FTP." }
+        if (-not (Remove-AppOffline)) {
+            Write-Warning 'Could not remove app_offline.htm. Delete it from the site root over FTP, or run the deploy again.'
+        }
     }
     Remove-Item $curlConfig -Force -ErrorAction SilentlyContinue
 }
