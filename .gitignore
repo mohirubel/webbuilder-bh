@@ -10,7 +10,6 @@
 [Ll]og/
 [Ll]ogs/
 publish/
-artifacts/
 *.nupkg
 *.snupkg
 
@@ -35,9 +34,11 @@ coverage/
 *.trx
 
 # --- Secrets & local configuration (never commit keys) ---
-# Local keys live in .NET user-secrets (outside the repo); server keys live in IIS.
+# Keys live in .NET user-secrets (outside the repo). The deploy script copies them into
+# artifacts/publish/appsettings.Production.json, so that file must never be committed either.
 *.env
 .env.*
+appsettings.Production.json
 appsettings.*.local.json
 appsettings.Local.json
 secrets.json
@@ -46,8 +47,13 @@ secrets.json
 *.pem
 *.key
 
-# --- Deployment (keys are generated into artifacts/ by deploy/deploy.ps1, never committed) ---
+# --- Deployment ---
+# Build output of .\deploy-server. Rebuilt on every deploy and contains the server keys.
+artifacts/
 deploy/*.local.json
+
+# --- Old layout (code now lives in src/; delete this folder once Visual Studio is closed) ---
+server/
 
 # --- Node (if front-end tooling is added later) ---
 node_modules/
