@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/WebBuilders.Domains.Api/WebBuilders.Domains.Api.csproj" />
+    <Project Path="src/WebBuilders.Domains.Business/WebBuilders.Domains.Business.csproj" />
+    <Project Path="src/WebBuilders.Domains.Data/WebBuilders.Domains.Data.csproj" />
+  </Folder>
+</Solution>
